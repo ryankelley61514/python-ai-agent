@@ -1,13 +1,9 @@
 import os
+from functions.confirm_valid_directory import confirm_valid_directory
 
 def get_files_info(working_directory, directory="."):
     try:
-        full_path = os.path.join(working_directory, directory)
-        # Normalize the paths to resolve '..' and make them absolute
-        normalized_working_dir = os.path.abspath(working_directory)
-        normalized_full_path = os.path.abspath(full_path)
-        # Check if the normalized full path starts with the normalized working directory
-        is_valid = normalized_full_path.startswith(normalized_working_dir)
+        is_valid, full_path = confirm_valid_directory(working_directory, directory)
         if not is_valid:
             return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
 
