@@ -1,6 +1,21 @@
 import os
+from google.genai import types # pyright: ignore[reportMissingImports]
 from functions.config import MAX_CHARS
 from functions.confirm_valid_directory import confirm_valid_directory
+
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Reads file content and returns it as a truncated string, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The path to file to read, relative to the working directory.",
+            ),
+        },
+    ),
+)
 
 def get_file_content(working_directory, file_path):
     try:

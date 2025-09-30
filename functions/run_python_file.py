@@ -2,6 +2,26 @@ import os
 import sys
 import subprocess
 from functions.confirm_valid_directory import confirm_valid_directory
+from google.genai import types # pyright: ignore[reportMissingImports]
+
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Runs a python file, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The path to the python file to run, relative to the working directory.",
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
+                items=types.Schema(type=types.Type.STRING),
+                description="Optional arguments to pass to the python file execution command.",
+            ),
+        },
+    ),
+)
 
 def run_python_file(working_directory, file_path, args=[]):
     try:
