@@ -5,10 +5,10 @@ from functions.get_file_content import get_file_content
 from functions.run_python_file import run_python_file
 from functions.write_file import write_file
 
-working_directory = './calculator'
+from functions.config import WORKING_DIR
 
 def call_function(function_call_part, verbose=False):
-    function_call_part.args["working_directory"] = working_directory
+    function_call_part.args["working_directory"] = WORKING_DIR
 
     function_dict = {
         'get_files_info': get_files_info,
