@@ -7,6 +7,7 @@ from google import genai
 from google.genai import types # pyright: ignore[reportMissingImports]
 
 from functions.schema_functions import available_functions
+from functions.call_function import call_function
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -60,7 +61,13 @@ def main():
     
     if response.function_calls:
         for call in response.function_calls:
-            print(f"Calling function: {call.name}({call.args})")
+            # print(f"Calling function: {call.name}({call.args})")
+            function_call_result = call_function(call, verbose=args.verbose)
+            if function_call_result.parts[0].function_response.response:
+                if args.verbose:
+                    print(f"-> {function_call_result.parts[0].function_response.response}")
+            else:
+                raise Exception("Error: Fatal error of some sort.")
     else:
         print(response.text)
     
